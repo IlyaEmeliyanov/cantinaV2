@@ -1,0 +1,53 @@
+
+
+doctype html
+html
+    head
+        title #{title} | Uve Vettoretti
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="./css/style.css")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap")
+
+        link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css")
+
+    body
+        .container
+            .container-left
+                .title-container
+                    h1.title Uve Vettoretti
+                .description-container
+                    h3.description-title Already signed up?
+                    p.description-info Click on the button below to pass to the login page
+                    a(href="login")
+                        button.btn Move
+            .container-right
+                h2.form__title SIGN UP
+                form(action="signup").signup-form
+                    .form__input-field
+                        input(type="text" placeholder=" " required="true").form__input#name
+                        label(for="name", label="email").form__label <h4>Name</h4>
+                    .form__input-field
+                        input(type="email" placeholder=" " required="true").form__input#email
+                        label(for="name", label="name").form__label <h4>Email</h4>
+                    .form__input-field
+                        input(type="password", placeholder=" " required="true").form__input#password
+                        label(for="name", label="password").form__label <h4>Password</h4>
+                    .form__input-field
+                        input(type="password", placeholder=" " required="true").form__input#confirmPassword
+                        label(for="name", label="confirmPassword").form__label <h4>Confirm Password</h4>
+                    button.btn-submit SUBMIT
+                .socials
+                    .icon-box
+                        a(href="https://facebook.com")
+                            img(src="../assets/facebook.svg", alt="facebook-icon")
+                    .icon-box
+                        a(href="https://instagram.com")
+                            img(src="../assets/instagram.svg", alt="facebook-icon")
+                    .icon-box
+                        a(href="https://twitter.com")
+                            img(src="../assets/twitter.svg", alt="facebook-icon")
+
+        script(src="js/signup.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js")
+        script(src="https://cdn.jsdelivr.net/npm/toastify-js")
