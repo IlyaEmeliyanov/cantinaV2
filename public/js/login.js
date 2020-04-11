@@ -30,8 +30,9 @@ const login = async (email, password) => {
             }
         });
         const {token} = res.data;
+        localStorage.removeItem('token');
         localStorage.setItem('token', token);
-        window.location.href = url + 'home';
+        window.location.href = url;
     } catch (error) {
         const statusCodeNumber = statusCode(error.message);
         console.log(statusCodeNumber);

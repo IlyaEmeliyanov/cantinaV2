@@ -9,7 +9,6 @@ const {NODE_ENV, privateKey, JWT_COOKIE_EXPIRES_IN} = require('../config/config.
 const AppError = require('../utils/AppError');
 const bcrypt = require('bcryptjs');
 
-const ls = require('localStorage');
 
 const createJwt = (value) => {
     const token = jwt.sign({value}, privateKey, {
@@ -33,7 +32,7 @@ const createAndSendToken = (user, statusCode, res) => {
     user.passwordConfirm = undefined;
   
     res.cookie('jwt', token, cookieOpt); // inserting the token in the cookies field of the clients computer
-    
+
     res.status(statusCode).json({
       status: 'success',
       token,
@@ -143,8 +142,6 @@ exports.isLoggedIn = catchAsync(async(req, res, next) => {
     if(req.headers.cookie){
         token = req.headers.cookie.split('=')[1];
     }
-    
-    console.log('TOKEN', token);
 
     if(!token){
         res.redirect('/login');
@@ -156,9 +153,10 @@ exports.isLoggedIn = catchAsync(async(req, res, next) => {
     // Verify if user exists
     const user = await User.findById(decoded.value);
     
-    if(!user)
+    if(!user){
+        res.redirect('/login');
         return next(new AppError('This user does not exist', 401));
-
+    }
 
 
     next();

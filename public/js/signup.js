@@ -56,7 +56,7 @@ const signup = async(name, email, password, confirmPassword) => {
         });
         const {token} = res.data;
         localStorage.setItem('token', token);
-        window.location.href = url + 'home';
+        window.location.href = url;
     } catch (error) {
         const statusCodeNumber = statusCode(error.message);
         console.log(statusCodeNumber);

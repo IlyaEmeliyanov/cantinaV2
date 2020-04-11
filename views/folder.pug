@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        title #{title}
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="./css/index.css")
+        link(rel="stylesheet", href="./css/dashboard.css")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap")
+
+    body
+
+        section.container
+            include navbar
+
+            <div class="dashboard">
+                .dashboard__title
+                    h1 #{title}
+                

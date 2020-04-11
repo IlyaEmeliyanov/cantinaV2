@@ -64,8 +64,6 @@ app.use("/", viewsRouter);
 
 
 //Db Config
-process.env.NODE_ENV = NODE_ENV || "development";
-
 console.log(info(`You are in ${process.env.NODE_ENV} mode👽`));
 
 if (process.env.NODE_ENV === "production") {

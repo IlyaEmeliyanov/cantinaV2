@@ -18,8 +18,7 @@ const serieSchema = new mongoose.Schema({
     },
     person: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'The serie must have a receiver'],
+        ref: 'User'
     },
     purpose: {
         type: String,
@@ -27,9 +26,6 @@ const serieSchema = new mongoose.Schema({
     },
     comment: {
         type: String,
-        minlength: 3,
-        maxlength: 50,
-        required: [true, 'The serie must have a comment'],
     },
     destinationStr: {
         type: String,

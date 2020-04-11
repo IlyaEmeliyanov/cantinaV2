@@ -1,13 +1,19 @@
-ul.navbar
-                li.navbar__item
-                    a(href="#").nav__link
-                        img.icon(src="../assets/home.svg", alt="home")
-                li.navbar__item
-                    a(href="#").nav__link
-                        img.icon(src="../assets/folder.svg", alt="home")
-                li.navbar__item
-                    a(href="#").nav__link
-                        img.icon(src="../assets/notes.svg", alt="home")
-                li.navbar__item
-                    a(href="#").nav__link
-                        img.icon(src="../assets/contacts.svg", alt="home")
+doctype html
+html
+    head
+        style
+            include ../public/css/navbar.css
+            
+        ul.navbar
+            li.navbar__item
+                a(href="/").nav__link
+                    img.icon(src="../assets/home.svg", alt="home")
+            li.navbar__item
+                a(href="/folder").nav__link
+                    img.icon(src="../assets/folder.svg", alt="home")
+            li.navbar__item
+                a(href="/charts").nav__link
+                    img.icon(src="../assets/notes.svg", alt="home")
+            li.navbar__item
+                a(href="/me").nav__link
+                    img.icon(src="../assets/contacts.svg", alt="home")

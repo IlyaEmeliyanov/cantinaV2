@@ -1,0 +1,26 @@
+doctype html
+html
+    head
+        title #{title}
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="./css/index.css")
+        link(rel="stylesheet", href="./css/dashboard.css")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap")
+
+        script(src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js")
+
+    body
+
+        section.container
+            include navbar
+
+            <div class="dashboard">
+                .dashboard__title
+                    h1 #{title}
+                
+            <canvas id="myChart" width="300" height="200"></canvas>
+
+        
+    script(src="js/utils.js")
+    script(src="js/chart.js")

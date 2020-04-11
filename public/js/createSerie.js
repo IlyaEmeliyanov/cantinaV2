@@ -23,7 +23,7 @@ const createSerie = async data => {
         destinationStr
       }
     });
-    window.location.href = url+'home';
+    window.location.href = url;
   } catch (error) {
     console.log('%c CREATE SERIE', style, error);
   }
@@ -60,8 +60,9 @@ const getPerson = decoded => {
 // Getting all data
 const getData = async() => {
   // Wine
-  const wineStr = document.getElementById("wine").value;
+  const wineStr = document.querySelector(".form__select").value;
   const wine = await getWine(wineStr);
+
   // Quantity
   const qty = document.getElementById("qty").value;
 

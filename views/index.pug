@@ -4,7 +4,12 @@ html
         title #{title}
         meta(charset="UTF-8")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        //- Styles
         link(rel="stylesheet", href="./css/index.css")
+        link(rel="stylesheet", href="./css/dashboard.css")
+        link(rel="stylesheet", href="./css/modal.css")
+        link(rel="stylesheet", href="./css/table.css")
+
         link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap")
         
         script(src="js/dist/xlsx.full.min.js")
@@ -12,26 +17,39 @@ html
         script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js")
         <script src="https://cdn.jsdelivr.net/npm/jwt-decode-module@1.0.4/index.min.js"></script>
 
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
 
     body
-
         section.container
             include navbar
-
-            <div data-simplebar class="dashboard">
+            <div class="dashboard">
                 .dashboard__title
-                    h1 Title
+                    h1 #{title}
                 form(action="create_xlsx").toXLSX
                 ul.dashboard__options
                     li.dashboard__options_item
-                        h3 Sort By
+                        button.dropdown__button#button_1 Ordina per
+                        ul.dashboard__dropdown#dropdown_1
+                            li.dashboard__dropdown_item
+                                button(class="dropdown__button" onclick=`${data}=sortBy(${JSON.stringify(data)}, 'date')`) Data
+                            li.dashboard__dropdown_item
+                                button.dropdown__button Incasso
                     li.dashboard__options_item
-                        h3 Any Date
+                        button.dropdown__button#button_2 Data
+                        ul.dashboard__dropdown#dropdown_2
+                            li.dashboard__dropdown_item
+                                button.dropdown__button Qualsiasi
+                            li.dashboard__dropdown_item
+                                button.dropdown__button Ultimo mese
+                            li.dashboard__dropdown_item
+                                input(type="date").input_date
                     li.dashboard__options_item
-                        h3 Monthly Plan
+                        button.dropdown__button#button_3 Piano
+                        ul.dashboard__dropdown#dropdown_3
+                            li.dashboard__dropdown_item
+                                button.dropdown__button Mensile
+                            li.dashboard__dropdown_item
+                                button.dropdown__button Annuale
                     li.dashoboard__options_item
                         button.btn +
                     li.dashboard__options_item
@@ -45,6 +63,7 @@ html
                             th Scopo
                             th Commento
                             th Destinazione
+                            th Incasso(€)
                             th Data
                     tbody
                         each el in data
@@ -55,6 +74,7 @@ html
                                 td= el.purpose
                                 td= el.comment
                                 td= el.destinationStr
+                                td= Math.round(el.wine.price * el.qty)
                                 td= el.date.toLocaleDateString()
                 </table>
                 
@@ -67,20 +87,17 @@ html
                         .form__select-field
                             select.form__select
                                 each wine in wines
-                                    option(value=wine.name)#wine #{wine.name}
+                                    option(value=wine.name)#wine= wine.name
                             label(for="wine", label="vino").form__select-label <h4>Vino</h4>
                         .form__input-field
                             input(type="text" placeholder=" " name="qty" required="true").form__input#qty
                             label(for="qty", label="quantità").form__label <h4>Quantità</h4>
                         .form__input-field
-                            input(type="text" placeholder=" " name="person" required="true").form__input#person
-                            label(for="person", label="persona").form__label <h4>Persona</h4>
-                        .form__input-field
                             input(type="text" placeholder=" " name="purpose" required="true").form__input#purpose
                             label(for="purpose", label="scopo").form__label <h4>Scopo</h4>
                         .form__input-field
-                            input(type="text" placeholder=" " name="comment" required="true").form__input#comment
-                            label(for="comment", label="commento").form__label <h4>Commento</h4>
+                            input(type="text" placeholder=" " name="comment").form__input#comment
+                            label(for="comment", label="commento").form__label <h4>Commento (opzionale)</h4>
                         .form__input-field
                             input(type="text" placeholder=" " name="destinatioStr" required="true").form__input#destinationStr
                             label(for="destinationStr", label="destinazione").form__label <h4>Destinazione</h4>
@@ -91,6 +108,9 @@ html
 
 
 
+        script(src="js/common/dropdown.js")
+
+        script(src="js/utils.js")
         script(src="js/createSerie.js")
         script(src="js/fileSaverExporter.js")
         
