@@ -20,6 +20,7 @@ html
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
 
     body
+        - const now = new Date();
         section.container
             include navbar
             <div class="dashboard">
@@ -28,28 +29,26 @@ html
                 form(action="create_xlsx").toXLSX
                 ul.dashboard__options
                     li.dashboard__options_item
-                        button.dropdown__button#button_1 Ordina per
+                        button.dropdown__link#button_1 Ordina per
                         ul.dashboard__dropdown#dropdown_1
                             li.dashboard__dropdown_item
-                                button(class="dropdown__button" onclick=`${data}=sortBy(${JSON.stringify(data)}, 'date')`) Data
+                                a.dropdown__link(href="?sort=-date") Data
+                                    a.dropdown__link(href="?sort=-date") 
+                                        img(src="../assets/down-arrow.svg", alt="arrow down").dropdown__icon#icon1
+                                    a.dropdown__link(href="?sort=date") 
+                                        img(src="../assets/down-arrow.svg", alt="arrow down").dropdown__icon#icon2
                             li.dashboard__dropdown_item
-                                button.dropdown__button Incasso
+                                a.dropdown__link(href="?sort=qty") Quantità
                     li.dashboard__options_item
-                        button.dropdown__button#button_2 Data
+                        button.dropdown__link#button_2 Data
                         ul.dashboard__dropdown#dropdown_2
                             li.dashboard__dropdown_item
-                                button.dropdown__button Qualsiasi
+                                a.dropdown__link(href="/") Qualsiasi💡
                             li.dashboard__dropdown_item
-                                button.dropdown__button Ultimo mese
+                                a.dropdown__link(href=`?year=${now.getFullYear()}&month=${now.getMonth()+1}`) Ultimo mese📆
                             li.dashboard__dropdown_item
-                                input(type="date").input_date
-                    li.dashboard__options_item
-                        button.dropdown__button#button_3 Piano
-                        ul.dashboard__dropdown#dropdown_3
-                            li.dashboard__dropdown_item
-                                button.dropdown__button Mensile
-                            li.dashboard__dropdown_item
-                                button.dropdown__button Annuale
+                                //- input(type="date").input_date
+                                a.dropdown__link(href=`?year=${now.getFullYear()}&month=${now.getMonth()+1}&day=${now.getDate()}`) Oggi✌🏻
                     li.dashoboard__options_item
                         button.btn +
                     li.dashboard__options_item
@@ -75,7 +74,7 @@ html
                                 td= el.comment
                                 td= el.destinationStr
                                 td= Math.round(el.wine.price * el.qty)
-                                td= el.date.toLocaleDateString()
+                                td= `${el.date.getDate()}/${el.date.getMonth()+1}/${el.date.getFullYear()}`
                 </table>
                 
 

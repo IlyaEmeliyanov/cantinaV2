@@ -25,13 +25,15 @@ const createAndSendToken = (user, statusCode, res) => {
       ),
       httpOnly: true
     };
-    if (NODE_ENV === 'production') cookieOpt.secure = true;
+    if (NODE_ENV === 'production') 
+        cookieOpt.secure = true;
     else cookieOpt.secure = false;
   
     user.password = undefined;
     user.passwordConfirm = undefined;
   
     res.cookie('jwt', token, cookieOpt); // inserting the token in the cookies field of the clients computer
+    console.log(token);
 
     res.status(statusCode).json({
       status: 'success',
@@ -107,17 +109,18 @@ exports.protect = catchAsync(async(req, res, next) => {
     
     let token;
     // if(process.env.NODE_ENV == 'production')
-        token = req.headers.authorization || req.headers.cookie;
+        token = req.headers.cookie;
     // else
         // token = req.headers.authorization.split(' ')[1];
     
     if(!token) return next(new AppError('You are not logged in', 401));
 
     const decoded = await jwt.decode(token, privateKey);
-    
     const now = new Date().getTime() / 1000;
-    console.log(token);
-    if(now >= decoded.exp) {console.log('expired'); return next(new AppError('The token is expired', 403));}
+
+    if(now >= decoded.exp) {
+        return next(new AppError('The token is expired', 403));
+    }
 
     const freshUser = await User.findById(decoded.value);
     if(!freshUser) return next(new AppError('This user does no longer exist', 401));

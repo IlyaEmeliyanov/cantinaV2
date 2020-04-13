@@ -6,8 +6,57 @@ const Serie = require("../models/serieModel");
 const _ = require("lodash");
 
 exports.getSeries = catchAsync(async (req, res, next) => {
-  const data = await Serie.find().populate({ path: "person", path: "wine" });
+  let queryObj = { ...req.query };
+  const excludedFields = [
+    "page",
+    "sort",
+    "limit",
+    "date",
+    "year",
+    "month",
+    "day",
+  ];
+  excludedFields.forEach((field) => delete queryObj[field]);
+
+  // 1.Filtering
+  if (req.query.year) {
+    const now = new Date();
+
+    let year = parseInt(req.query.year);
+    let month = parseInt(req.query.month)-1 || now.getMonth();
+    let day = parseInt(req.query.day) || 1;
+
+
+    const queryDate = new Date(year, month, day, 0, 0, 0, 0);
+
+    console.log(now > queryDate);
+
+    const queryDateObj = { date: { $lte: now, $gte: queryDate } };
+
+    queryObj = { ...queryObj, ...queryDateObj };
+    console.log(queryObj);
+  }
+
+  let query = Serie.find(queryObj).populate({ path: "person", path: "wine" });
+
+  // 2.Sorting
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ");
+    query = query.sort(sortBy);
+  } else {
+    query = query.sort("-date");
+  }
+
+  // 3.Pagination
+  const page = req.query.page * 1 || 1;
+  const limitValue = req.query.limit * 1 || 10;
+  const skipValue = (page - 1) * limitValue;
+  query = query.skip(skipValue).limit(limitValue);
+
+  const data = await query;
+
   if (!data) return next(new AppError("There is no data in the database", 400));
+
   res.json({
     status: "success",
     data,
@@ -19,7 +68,7 @@ exports.getSerie = catchAsync(async (req, res, next) => {
     path: "person",
     path: "wine",
   });
-  console.log(data);
+
   if (!data) next(new AppError("No document found with that ID", 404));
   res.json({
     status: "success",
@@ -55,26 +104,6 @@ exports.deleteSerie = catchAsync(async (req, res, next) => {
   res.json({
     status: "success",
     data,
-  });
-});
-
-exports.getSortedSeries = catchAsync(async (req, res, next) => {
-  let query = await Serie.find().populate({ path: "person", path: "wine" });
-  console.log(query);
-
-  if (req.query.sortBy) {
-    query = query.sort(req.query.sortBy);
-  }
-
-  query = await query;
-
-  console.log(query);
-
-  res.json({
-    status: "success",
-    data: {
-      query,
-    },
   });
 });
 
