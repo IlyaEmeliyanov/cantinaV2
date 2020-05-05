@@ -9,5 +9,6 @@ router.route('/:id').get(serieController.getSerie).patch(serieController.updateS
 
 router.route('/getSerieByDate/:year/:month/:day').get(serieController.getSerieByDate);
 router.route('/getMonthlyPlan/:year/:month').get(serieController.getMonthlyPlan);
+router.route('/getSerieByWine/:wine').get(serieController.getSerieByWine);
 
 module.exports = router;

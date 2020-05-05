@@ -5,6 +5,10 @@ html
         meta(charset="UTF-8")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="./css/index.css")
+        link(rel="stylesheet", href="./css/dashboard.css")
+        link(rel="stylesheet", href="./css/table.css")
+
+
         link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap")
 
     body
@@ -15,7 +19,48 @@ html
             <div class="dashboard">
                 .dashboard__title
                     h1 #{title}
-                p.dashboard__me
+
+                br
+
+                .dashboard__content
+                    p.dashboard__info_item Role: 
+                        b #{role}
+                    p.dashboard__info_item Name: 
+                        b #{name}
+                    p.dashboard__info_item Email: 
+                        b #{email}
+
+                    each el in [1,2,3]
+                        br
+
+                    p 
+                        b I tuoi prelievi:
+                            table.dashboard__table
+                                thead
+                                    tr
+                                        th Vino
+                                        th Quantità
+                                        th Persona
+                                        th Scopo
+                                        th Commento
+                                        th Destinazione
+                                        th Incasso(€)
+                                        th Data
+                                tbody
+                                    each el in data
+                                        tr
+                                            td= el.wine.name
+                                            td= el.qty
+                                            td= el.person.name
+                                            td= el.purpose
+                                            td= el.comment
+                                            td= el.destinationStr
+                                            td= Math.round(el.wine.price * el.qty)
+                                            td= `${el.date.getDate()}/${el.date.getMonth()+1}/${el.date.getFullYear()}`
+
+                
+                        
                     
             
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/lib/index.min.js"></script>
                 

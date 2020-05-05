@@ -2,6 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
 
 const Serie = require("../models/serieModel");
+const Wine = require("../models/wineModel");
 
 const _ = require("lodash");
 
@@ -23,9 +24,8 @@ exports.getSeries = catchAsync(async (req, res, next) => {
     const now = new Date();
 
     let year = parseInt(req.query.year);
-    let month = parseInt(req.query.month)-1 || now.getMonth();
+    let month = parseInt(req.query.month) - 1 || now.getMonth();
     let day = parseInt(req.query.day) || 1;
-
 
     const queryDate = new Date(year, month, day, 0, 0, 0, 0);
 
@@ -168,4 +168,36 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
       message: error,
     });
   }
+});
+
+exports.getSerieByWine = catchAsync(async (req, res, next) => {
+  const { year, month, day } = req.query;
+  const {wine} = req.params;
+
+  let yearValue = year || new Date().getFullYear();
+  let monthValue = month || 1;
+  let dayValue = day || 1;
+  
+
+  const now = new Date();
+  const date = new Date(`${yearValue}-${monthValue}-${dayValue}`);
+
+  const wineId = (await Wine.findOne({name: wine}))._id;
+
+  console.log(date);
+  console.log(now);
+
+  const aggregate = await Serie.aggregate([
+    {
+      $match: { date: { $gte: date, $lte: now }, wine: wineId},
+    },
+  ]);
+
+  console.log(aggregate);
+
+  res.json({
+    status: 'success',
+    data: aggregate 
+  });
+
 });

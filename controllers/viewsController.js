@@ -1,5 +1,10 @@
 const Serie = require("../models/serieModel");
 const Wine = require("../models/wineModel");
+const User = require('../models/userModel');
+
+const mongoose = require('mongoose');
+
+const jwt = require('jsonwebtoken');
 
 exports.getDashboard = async (req, res) => {
   const wines = await Wine.find();
@@ -28,7 +33,6 @@ exports.getDashboard = async (req, res) => {
   // 2.Sorting
   if (req.query.sort) {
     const sortBy = req.query.sort.split(",").join(" ");
-    console.log(sortBy);
     query = query.sort(sortBy);
   } else {
     query = query.sort("-date");
@@ -41,8 +45,6 @@ exports.getDashboard = async (req, res) => {
   query = query.skip(skipValue).limit(limitValue);
 
   const data = await query;
-
-  console.log(data);
 
   res.status(200).render("index", {
     title: "Home",
@@ -58,21 +60,40 @@ exports.getFolder = async (req, res) => {
 };
 
 exports.getCharts = async (req, res) => {
-  const data = await Serie.find().populate({ path: "person", path: "wine" });
-  const date1 = data[0].date.getMonth() + 1;
-  const date2 = data[data.length - 1].date.getMonth() + 1;
 
-  console.log(date1);
-  console.log(date2);
+  let wineId = '';
+
+  if(req.query){
+    let {wine} = req.query;
+  
+    const res = await Wine.findOne({name: wine});
+    console.log(res);
+  }
 
   res.status(200).render("charts", {
     title: "Grafici",
+    wineId
   });
 };
 
 exports.getMe = async (req, res) => {
+
+  const token = req.headers.cookie.split('=')[1];
+
+  const {value} = await jwt.decode(token);
+
+  const {role, name, email} = await User.findById(value);
+
+  const data = await Serie.find({person: mongoose.Types.ObjectId(value)}).populate({path: 'person', path: 'wine'});
+
+  data.reverse();
+
   res.status(200).render("me", {
     title: "Me",
+    role,
+    name,
+    email,
+    data
   });
 };
 

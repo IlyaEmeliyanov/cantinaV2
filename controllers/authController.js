@@ -107,11 +107,7 @@ exports.deleteMe = catchAsync(async(req, res, next) => {
 exports.protect = catchAsync(async(req, res, next) => {
     if(!req.headers.authorization) return next(new AppError('You have to specify a JWT', 401));
     
-    let token;
-    // if(process.env.NODE_ENV == 'production')
-        token = req.headers.cookie;
-    // else
-        // token = req.headers.authorization.split(' ')[1];
+    let token = req.headers.cookie.split('=')[1] || req.headers.authorization;
     
     if(!token) return next(new AppError('You are not logged in', 401));
 

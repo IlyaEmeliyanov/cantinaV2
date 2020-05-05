@@ -14,7 +14,6 @@ html
         
         script(src="js/dist/xlsx.full.min.js")
         script(src="http://cdn.jsdelivr.net/g/filesaver.js")
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js")
         <script src="https://cdn.jsdelivr.net/npm/jwt-decode-module@1.0.4/index.min.js"></script>
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
@@ -47,7 +46,6 @@ html
                             li.dashboard__dropdown_item
                                 a.dropdown__link(href=`?year=${now.getFullYear()}&month=${now.getMonth()+1}`) Ultimo mese📆
                             li.dashboard__dropdown_item
-                                //- input(type="date").input_date
                                 a.dropdown__link(href=`?year=${now.getFullYear()}&month=${now.getMonth()+1}&day=${now.getDate()}`) Oggi✌🏻
                     li.dashoboard__options_item
                         button.btn +
@@ -76,6 +74,10 @@ html
                                 td= Math.round(el.wine.price * el.qty)
                                 td= `${el.date.getDate()}/${el.date.getMonth()+1}/${el.date.getFullYear()}`
                 </table>
+
+                .nav__panel
+                    ul
+                        
                 
 
             .modal.displayNone
@@ -108,6 +110,8 @@ html
 
 
         script(src="js/common/dropdown.js")
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
         script(src="js/utils.js")
         script(src="js/createSerie.js")

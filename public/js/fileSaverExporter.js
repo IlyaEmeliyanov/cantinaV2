@@ -1,8 +1,6 @@
 
-document.querySelector('.closeBtn').addEventListener('click', () => {modal.classList.toggle('displayNone')});
-
 // Creating XLSX file
-const deleteUnnecessary = data => {
+const deleteUnnecessary = (data) => {
   for (let i = 0; i < data.length; i++) {
     data[i].date = new Date(data[i].date).toLocaleDateString();
     delete data[i]._id;
@@ -13,7 +11,7 @@ const deleteUnnecessary = data => {
     delete data[i].wine.__v;
   }
 };
-const createWSData = data => {
+const createWSData = (data) => {
   let extern = [];
   let intern = [];
   let i = 0;
@@ -26,9 +24,12 @@ const createWSData = data => {
   return extern;
 };
 const convert = async () => {
+  const urlString = location.href.split("/")[2];
+  const query = location.href.split("/")[3];
+
   const res = await axios({
     method: "GET",
-    url: url + "serie"
+    url: "/serie" + query,
   });
 
   let { data } = res.data;
@@ -38,11 +39,11 @@ const convert = async () => {
   console.log(data);
 
   const wb = XLSX.utils.book_new();
-//   wb.Props = {
-//     Vino: "Vino",
-//     Quantità: "Quantità (bottiglie)",
-//     Destinazione: "Destinazione"
-//   };
+  //   wb.Props = {
+  //     Vino: "Vino",
+  //     Quantità: "Quantità (bottiglie)",
+  //     Destinazione: "Destinazione"
+  //   };
   wb.SheetNames.push("Prelievo");
 
   const ws_data = data;
@@ -50,7 +51,7 @@ const convert = async () => {
   wb.Sheets["Prelievo"] = ws;
 
   const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
-  const s2ab = s => {
+  const s2ab = (s) => {
     const buffer = new ArrayBuffer(s.length);
     const view = new Uint8Array(buffer);
     for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
@@ -63,4 +64,6 @@ const convert = async () => {
   );
 };
 
-document.querySelector(".btn-convert").addEventListener("click", () => {convert()});
+document.querySelector(".btn-convert").addEventListener("click", () => {
+  convert();
+});

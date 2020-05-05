@@ -7,7 +7,8 @@
     width: 90%;
     padding: 55px;
   }
-  
+
+
   .dashboard__options {
     display: flex;
     flex-direction: row;
@@ -28,6 +29,12 @@
     cursor: pointer;
   }
   
+.dashboard__info_item{
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+
 
 /* BUTTON */
 

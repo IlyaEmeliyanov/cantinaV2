@@ -19,8 +19,17 @@ html
                 .dashboard__title
                     h1 #{title}
                 
+                .button.dropdown__link#button_1 Scegli il vino
+
+                ul.dashboard__dropdown#dropdown_1
+                    li.dashboard__dropdown_item
+                        a.dropdown__link(href="?sort=-date")= el
+
+
+
             <canvas id="myChart" width="300" height="200"></canvas>
 
         
+    script(src="js/common/dropdown.js")
     script(src="js/utils.js")
     script(src="js/chart.js")

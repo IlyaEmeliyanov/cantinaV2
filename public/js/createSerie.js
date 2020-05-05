@@ -93,3 +93,5 @@ document.querySelector(".btn").addEventListener("click", () => {
     createSerie(data);
   });
 });
+
+document.querySelector('.closeBtn').addEventListener('click', () => {modal.classList.toggle('displayNone')});
